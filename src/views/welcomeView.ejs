@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+</head>
+<body>
+    <h1>Welcome, <%= username %>!</h1>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+
+    <% if (isAdmin) { %>
+        <h2>Admin Dashboard</h2>
+        <a href="/dashboard">Go to Dashboard</a>
+    <% } %>
+
+    <h2>Send a Message</h2>
+    <form action="/send-message" method="post">
+        <label for="receiver">To (User):</label>
+        <input type="text" id="receiver" name="receiver">
+        <label for="group">To (Group):</label>
+        <input type="text" id="group" name="group">
+        <label for="content">Message:</label>
+        <textarea id="content" name="content" required></textarea>
+        <button type="submit">Send</button>
+    </form>
+
+    <h2>Mailbox</h2>
+    <ul>
+        <% messages.forEach(message => { %>
+            <li>
+                <strong>From:</strong> <%= message.sender.username %> <br>
+                <strong>Message:</strong> <%= message.content %> <br>
+                <strong>Received at:</strong> <%= message.timestamp %> <br>
+                <% if (message.group) { %>
+                    <strong>Group:</strong> <%= message.group.name %>
+                <% } %>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>
